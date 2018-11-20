@@ -249,3 +249,129 @@ int main()
     cout<<su[b]<<" "<<ans[b];
     return 0;
 }
+
+//用优先队列改良后
+
+/*
+#include <bits/stdc++.h>
+#define N 100010
+#define INF 10000010
+using namespace std;
+vector<int> pre[N];
+int w[N];
+struct edge{
+     int v,val;
+     edge(){}
+     edge(int a,int b){v=a;val=b;}
+     friend bool operator < (const edge &a,const edge &b)   
+     {
+         if(a.val==b.val) return a.v<b.v;
+         else return a.val>b.val;
+     }
+ };
+vector<edge> G[N];
+bool vis[N];
+int d[N];
+int n,m,s,e,sumpath=0,sumw=-1;
+vector<int> temp,ans;
+void add(int u,int v,int val)//加边操作 
+{
+	G[u].push_back(edge(v,val));
+	G[v].push_back(edge(u,val));
+}
+void dijkstra(int s)
+{
+	fill(vis,vis+n,false);
+	fill(d,d+n,INF);
+	d[s]=0;
+	vis[s]=true; 
+	//priority_queue <edge,vector<edge>, greater<edge> > q;
+	priority_queue<edge> q;
+	q.push(edge(s,0));
+	while(!q.empty())
+	{
+		edge temp = q.top();
+		q.pop();
+		int u=temp.v; 
+		vis[u]=true;//确定 d[u] 		
+		for(int i=0;i<G[u].size();i++)
+		{
+			int v=G[u][i].v;
+			int val = G[u][i].val;
+			if(!vis[v]&&d[v]>d[u]+val)
+			{
+				pre[v].clear();
+				pre[v].push_back(u);
+				d[v]=d[u]+val;
+				q.push(edge(v,d[v]));
+			}
+			else if(!vis[v]&&d[v]==d[u]+val)
+			{
+				pre[v].push_back(u);
+			}
+		}
+	
+	}	
+}
+int fun()
+{
+	int s=0;
+	for(int i=0;i<temp.size();i++)
+	{
+		cout<<temp[i]<<" ";
+		s+=w[temp[i]];
+	}
+	cout<<endl;
+	return s;
+}
+void dfs(int s,int e)
+{
+	if(e==s)
+	{
+		sumpath++;
+		temp.push_back(s);
+		int sw=fun();
+		if(sw>sumw)
+		{
+			ans=temp;
+			sumw=sw;
+		}
+		temp.pop_back();
+	}
+	temp.push_back(e);
+	for(int i=0;i<pre[e].size();i++)
+	{
+		dfs(s,pre[e][i]);
+	}
+	temp.pop_back();
+}
+int main()
+{
+	
+	cin>>n>>m>>s>>e;
+	for(int i=0;i<n;i++)
+	cin>>w[i];
+	for(int i=0;i<m;i++)
+	{
+		int u,v,val;
+		cin>>u>>v>>val;
+		add(u,v,val);
+	}
+	dijkstra(s);
+	dfs(s,e);
+	cout<<sumpath<<" "<<sumw;
+	return 0;
+ } 
+ 
+ /*
+ 5 6 0 2
+ 1 2 1 5 3
+ 0 1 1
+ 0 2 2
+ 0 3 1
+ 1 2 1
+ 2 4 1
+ 3 4 1
+ 
+ */
+*/
