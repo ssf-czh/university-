@@ -1,0 +1,75 @@
+/* 原本n**2 变成n*logn*/
+//笔记374
+
+#include <bits/stdc++.h>
+#define N 100010
+#define INF 10000010
+using namespace std;
+struct edge{
+     int v,val;
+     edge(){}
+     edge(int a,int b){v=a;val=b;}
+     //对小于号进行重载 const 和friend不能省略
+     //对优先队列的重载很特别 因为优先级 所以如果是val属性小的优先级高的话
+	 //那么 return的时候就应该和sort相反 即val大的排前面 
+     friend bool operator < (const edge &a,const edge &b)   
+     {
+         if(a.val==b.val) return a.v<b.v;
+         else return a.val>b.val;
+     }
+ };
+vector<edge> G[N];
+bool vis[N];
+int d[N];
+int n,m,s;
+void add(int u,int v,int val)//加边操作 
+{
+	G[u].push_back(edge(v,val));
+	G[v].push_back(edge(u,val));
+}
+void dijkstra(int s)
+{
+	fill(vis,vis+n,false);
+	fill(d,d+n,INF);
+	d[s]=0;
+	vis[s]=true; 
+	//priority_queue <edge,vector<edge>, greater<edge> > q;
+	priority_queue<edge> q;
+	q.push(edge(s,0));
+	while(!q.empty())
+	{
+		edge temp = q.top();
+		q.pop();
+		int u=temp.v; 
+		vis[u]=true;//确定 d[u] 		
+		for(int i=0;i<G[u].size();i++)
+		{
+			int v=G[u][i].v;
+			int val = G[u][i].val;
+			if(!vis[v]&&d[v]>d[u]+val)
+			{
+				//更新完 v点可能对后续定点有影响 所以加入队列观察 
+				d[v]=d[u]+val;
+				q.push(edge(v,d[v]));
+			}
+		}
+	
+	}
+	
+	
+}
+int main()
+{
+	
+	cin>>n>>m>>s;
+	for(int i=0;i<m;i++)
+	{
+		int u,v,val;
+		cin>>u>>v>>val;
+		add(u,v,val);
+	}
+	dijkstra(s);
+	for(int i=0;i<n;i++)
+	cout<<d[i]<<" ";
+	return 0;
+ } 
