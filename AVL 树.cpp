@@ -1,5 +1,5 @@
 P327
-//AVL树的简单操作
+  //AVL树的简单操作
 #include <bits/stdc++.h>
 using namespace std;
 struct node//带有高度的结点 一般初始为1
