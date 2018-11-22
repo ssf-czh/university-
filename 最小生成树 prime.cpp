@@ -1,5 +1,10 @@
 P407
-
+/*
+  prime是对顶点v进行贪心思想 最优子结构
+  类似于Dijkstra算法 
+  算法复杂度与顶点数有关 是O（v*v）
+  所以适合点少边多的数据使用
+*/
 #include <bits/stdc++.h>
 #define INF 100010
 #define N 10001
