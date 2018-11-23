@@ -19,7 +19,7 @@ struct node
 };
 int n,m;
 vector <node> adj[N];
-int d[N];//这里的d[v]不同于最短路径 这里是最近到达距离最小
+int d[N];//这里的d[v]不同于最短路径 这里是最近到达子集s的最小距离
 bool vis[N];
 void add(int a,int b,int c)
 {
