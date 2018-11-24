@@ -34,7 +34,9 @@ int kru()//返回最小权值和
 	{
 		//cout<<"777"<<endl;
 		int u=edge[i].u,v=edge[i].v,val=edge[i].val;
-		if(findfa(u)==findfa(v))
+		int fau=findfa(u);
+		int fav=findfa(v);
+		if(fav==fau)
 		{
 			//cout<<"555"<<endl;
 			continue;
@@ -43,7 +45,7 @@ int kru()//返回最小权值和
 		{
 			//cout<<"999"<<endl;
 			sum+=val;
-			fa[v]=findfa(u);
+			fa[fav]=fau;
 			cnt++;
 		}
 	}
