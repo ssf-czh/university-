@@ -41,6 +41,7 @@ void dijkstra(int s)
 		edge temp = q.top();
 		q.pop();
 		int u=temp.v; 
+		if(vis[u])continue;//因为在队列过程中某一个u可能被其他俩个点优化过2次 所以进入过2次队列，第二次没用;
 		vis[u]=true;//确定 d[u] 		
 		for(int i=0;i<G[u].size();i++)
 		{
