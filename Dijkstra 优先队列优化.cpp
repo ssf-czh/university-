@@ -74,6 +74,94 @@ int main()
 	cout<<d[i]<<" ";
 	return 0;
  } 
+
+
+这个是ds作业中的 多起点多终点问题求解
+把多个起点合并成超级源点 然后一次dij
+/*
+#include <bits/stdc++.h>
+#define N 50000+10
+#define INF 100000010
+using namespace std;
+typedef pair<int,int> P;
+struct node
+{
+	int v,val;
+	node(int a,int b)
+	{
+		v=a;val=b;
+	}
+};
+vector<node> adj[N];
+int d[N];
+bool vis[N]={false};
+int n,t,m,k,ans=INF;//m是可到达 k是喜欢的 
+int M[N]; int K[N];
+void add(int u,int v,int val)
+{
+	adj[u].push_back(node(v,val));
+	adj[v].push_back(node(u,val));
+}
+void dij(int s=0)
+{
+	//cout<<"s="<<s<<endl;
+	fill(d,d+N,INF);
+	fill(vis,vis+N,false);
+	priority_queue<P,vector<P>,greater<P> > q;
+	d[0]=0;
+	q.push(P(0,0));//第一个是值 第二个是坐标 
+	while(!q.empty())
+	{
+		P temp =q.top();
+		q.pop();
+	//	cout<<"789 "<<temp.second<<endl;
+		if(vis[temp.second])continue	
+		vis[temp.second]=true;
+		int u=temp.second;
+		//cout<<"size"<<adj[0].size();
+		for(int i=0;i<adj[u].size();i++)
+		{
+			int v=adj[u][i].v;
+			int val=adj[u][i].val;
+		//	cout<<"  v:"<<v<<" val:"<<val<<"   d[v] "<<d[v]<<"  d[u]+val "<<d[u]+val<<endl;
+			if(!vis[v]&&d[v]>d[u]+val)
+			{
+				
+				d[v]=d[u]+val;
+				q.push(P(d[v],v));
+			}
+		}
+	}
+		
+}
+int main()
+{
+	cin>>n>>t>>m>>k;
+	for(int i=0;i<t;i++)
+	{
+		int u,v,val;
+		cin>>u>>v>>val;
+		add(u,v,val);
+	}
+	for(int i=0;i<m;i++)
+	{
+		int v;
+		cin>>v;
+		add(0,v,0);
+	}
+	dij();
+	for(int i=0;i<k;i++)
+	{
+		
+		int temp;cin>>temp;
+		//cout<<d[temp]<<" ";
+		ans=min(ans,d[temp]);	
+	}
+	cout<<ans;
+	
+	return 0;
+} 
+*/
 /*
 6 8 0
  0 1 1
