@@ -7,7 +7,14 @@ using namespace std;
 int full[N];
 int cur[N];
 int next[N];
-void merge(int a,int b)//b=a+1 如果a满了之后，a的next就等于b的 
+int findnext(int x)
+{
+	if(next[x]==x)return x;
+	int f=findnext(next[x]);
+	next[x]=f;
+	return f;
+}//路径压缩 
+void merge(int a,int b)//b=a+1 如果a满了之后，a的next就等于b的next
 {
 	next[a]=next[b];
 }
@@ -31,7 +38,7 @@ int main()
 			cin>>x>>y;
 			while(y)
 			{
-				x=next[i];
+				x=findnext(x);
 //				cout<<"xxx="<<x<<endl;
 				if(x==n+1)break;
 //				cout<<"! "<<full[x]-cur[x]<<endl;
